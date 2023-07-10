@@ -14,9 +14,10 @@ namespace Notificador{
         {
             string input = "";
             string asset = "";
-            string min_value = "";
-            string max_value = "";
-            string quoteDataJson = "";
+            double min_value = 0;
+            double max_value = 0;
+            double last_value = 0;
+            string quoteDataJson;
 
             do
             {
@@ -25,34 +26,44 @@ namespace Notificador{
                     input = Console.ReadLine();
                     string[] value = input.Split(' ');
                     asset = value[0];
-                    min_value = value[1];
-                    max_value = value[2];
+                    min_value = double.Parse(value[1]);
+                    max_value = double.Parse(value[2]);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-            }while (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(min_value) || string.IsNullOrEmpty(max_value));
+            }while (string.IsNullOrEmpty(input) || double.IsNegative(min_value) || double.IsNegative(max_value));
 
-            try
+            while(true)
             {
-                ApiConnect apiConnect = new ApiConnect();
-                quoteDataJson = await apiConnect.GetQuoteData(asset);
-                
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Não foi possível conectar-se à API, ocorreu um erro: {ex.Message}");
-            }
+                try
+                {
+                    ApiConnect apiConnect = new ApiConnect();
+                    quoteDataJson = await apiConnect.GetQuoteData(asset);
+                    JObject quoteData = JObject.Parse(quoteDataJson);
+                    double regularMarketPrice = (double)quoteData["results"][0]["regularMarketPrice"];
 
-            JObject quoteData = JObject.Parse(quoteDataJson);
-            double regularMarketPrice = (double)quoteData["results"][0]["regularMarketPrice"];
-            Console.WriteLine(regularMarketPrice);
-            Console.ReadLine();
+                    if (regularMarketPrice < min_value && last_value > min_value)
+                    {
+                        Console.WriteLine($"O valor do ativo {asset} é inferior ao valor mínimo. Sugere-se a compra do ativo.");
+                    }
+                    else if (regularMarketPrice > max_value && last_value < max_value)
+                    {
+                        Console.WriteLine($"O valor do ativo {asset} é superior ao valor máximo. Sugere-se a venda do ativo.");
+                    }
+
+                    last_value = regularMarketPrice;
+                    Console.WriteLine($"Valor atual do ativo {asset}: {regularMarketPrice}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Não foi possível conectar-se à API, ocorreu um erro: {ex.Message}");
+                }
+
+            Thread.Sleep(TimeSpan.FromMinutes(5));
+            }
             
-
-
-
         }
 
 
