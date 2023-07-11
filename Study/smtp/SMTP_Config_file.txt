@@ -1,0 +1,1 @@
+smtp.gmail.com 587 assetsnotifierchallenge@gmail.com ruvriqgfkdjhkcjs victor.motta1502@gmail.com
