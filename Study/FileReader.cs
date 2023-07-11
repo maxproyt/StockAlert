@@ -22,9 +22,9 @@ namespace Notificador
         {
             try
             {
-                if (File.Exists("smtp\\SMTP_Config_file.txt"))
+                if (File.Exists("C:\\Users\\Victor\\source\\repos\\Study\\Study\\smtp\\SMTP_Config_file.txt"))
                 {
-                    file_string = File.ReadAllText("smtp\\SMTP_Config_file.txt");
+                    file_string = File.ReadAllText("C:\\Users\\Victor\\source\\repos\\Study\\Study\\smtp\\SMTP_Config_file.txt");
                     string[] substring_array = file_string.Split(' ');
                     smtp_client = substring_array[0];
                     port = substring_array[1];

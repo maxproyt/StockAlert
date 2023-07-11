@@ -47,10 +47,12 @@ namespace Notificador{
                     if (regularMarketPrice < min_value && last_value > min_value)
                     {
                         Console.WriteLine($"O valor do ativo {asset} é inferior ao valor mínimo. Sugere-se a compra do ativo.");
+                        EmailSender sendMail = new EmailSender(asset, false);
                     }
                     else if (regularMarketPrice > max_value && last_value < max_value)
                     {
                         Console.WriteLine($"O valor do ativo {asset} é superior ao valor máximo. Sugere-se a venda do ativo.");
+                        EmailSender sendMail = new EmailSender(asset, true);
                     }
 
                     last_value = regularMarketPrice;
