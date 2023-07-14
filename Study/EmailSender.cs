@@ -13,60 +13,56 @@ namespace Notificador
 {
     internal class EmailSender
     {
-        private string email;
-        private string smtpClientData;
-        private string port;
-        private string password;
+        
         private FileReader fileData = new();
-        private List<string> customerEmail = new();
         private MailMessage mailMessage = new();
 
         public EmailSender(string asset, bool action) {
-            
-            email = fileData.Email;
-            smtpClientData = fileData.SmtpClient;
-            password = fileData.Password;
-            port = fileData.Port;
-            customerEmail = fileData.EmailList;
-            
             try
             {
-                mailMessage.From = new MailAddress(email);
+                mailMessage.From = new MailAddress(fileData.Email);
                 if (action)
                 {
                     mailMessage.Subject = "Sua ação " + asset + " atingiu o ponto de VENDA! StockAlert";
-                    mailMessage.Body = "<html><body> Hora de vender a sua ação<body><html>";
+                    mailMessage.Body = fileData.HtmlBodySell;
                     mailMessage.IsBodyHtml = true;
-                    for(int i = 0; i < customerEmail.Count; i++)
+                    for(int i = 0; i < fileData.EmailList.Count; i++)
                     {
-                        mailMessage.To.Add(new MailAddress(customerEmail[i]));
+                        mailMessage.To.Add(new MailAddress(fileData.EmailList[i]));
                     }
                 }
                 else 
                 {
                     mailMessage.Subject = "Sua ação " + asset + " atingiu o ponto de COMPRA! StockAlert";
-                    mailMessage.Body = "<html><body> Hora de comprar a sua ação<body><html>";
+                    mailMessage.Body = fileData.HtmlBodyBuy;
                     mailMessage.IsBodyHtml = true;
-                    for (int i = 0; i < customerEmail.Count; i++)
+                    for (int i = 0; i < fileData.EmailList.Count; i++)
                     {
-                        mailMessage.To.Add(new MailAddress(customerEmail[i]));
+                        mailMessage.To.Add(new MailAddress(fileData.EmailList[i]));
                     }
                 }
-                var smtpClient = new SmtpClient(smtpClientData)
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }  
+        }
+        public void SendMailSmtp()
+        {
+            try
+            {
+                var smtpClient = new SmtpClient(fileData.SmtpClient)
                 {
-                    Port = int.Parse(this.port),
-                    Credentials = new NetworkCredential(email, password),
+                    Port = int.Parse(fileData.Port),
+                    Credentials = new NetworkCredential(fileData.Email, fileData.Password),
                     EnableSsl = true,
                 };
                 smtpClient.Send(mailMessage);
-                
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-
         }
     }
 }

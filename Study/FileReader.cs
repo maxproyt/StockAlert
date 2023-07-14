@@ -15,17 +15,24 @@ namespace Notificador
         private string? port;
         private string? email;
         private string? password;
-        private string? file_string;
+        private string? fileString;
+        private string? htmlBodySell;
+        private string? htmlBodyBuy;
+        private string  htmlSellPath = "..\\..\\..\\files\\Email_body_sell.html";
+        private string  htmlBuyPath = "..\\..\\..\\files\\Email_body_buy.html";
+        private string  smtpFilePath = "..\\..\\..\\files\\SMTP_Config_file.txt";
         private List<string> recipient_list = new List<string>();
 
         public FileReader()
         {
             try
             {
-                if (File.Exists("C:\\Users\\Victor\\source\\repos\\Study\\Study\\smtp\\SMTP_Config_file.txt"))
+                if (File.Exists(smtpFilePath) && File.Exists(htmlSellPath) && File.Exists(htmlBuyPath))
                 {
-                    file_string = File.ReadAllText("C:\\Users\\Victor\\source\\repos\\Study\\Study\\smtp\\SMTP_Config_file.txt");
-                    string[] substring_array = file_string.Split(' ');
+                    fileString = File.ReadAllText(smtpFilePath);
+                    htmlBodySell = File.ReadAllText(htmlSellPath);
+                    htmlBodyBuy = File.ReadAllText(htmlBuyPath);
+                    string[] substring_array = fileString.Split(' ');
                     smtp_client = substring_array[0];
                     port = substring_array[1];
                     email = substring_array[2];
@@ -34,12 +41,15 @@ namespace Notificador
 
                     for (int i = 4; i < substring_array.Length; i++)
                     {
-                        recipient_list.Add(substring_array[i]);
+                        if(!string.IsNullOrEmpty(substring_array[i]))
+                        {
+                            recipient_list.Add(substring_array[i]);
+                        }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Não foi possível encontrar o arquivo no caminho especificado: smtp\\SMTP_Config_file.txt");
+                    Console.WriteLine("A base de arquivos necessárias não está presente no diretório padrão: files\\");
                 }
             }
             catch(Exception ex)
@@ -52,7 +62,9 @@ namespace Notificador
         public string Port => port;
         public string Email => email;
         public string Password => password;
-        public List<string> EmailList=> recipient_list;
+        public string HtmlBodySell => htmlBodySell;
+        public string HtmlBodyBuy => htmlBodyBuy;
+        public List<string> EmailList => recipient_list;
 
     }
 }

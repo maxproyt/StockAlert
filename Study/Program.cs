@@ -44,15 +44,17 @@ namespace Notificador{
                     JObject quoteData = JObject.Parse(quoteDataJson);
                     double regularMarketPrice = (double)quoteData["results"][0]["regularMarketPrice"];
 
-                    if (regularMarketPrice < min_value && last_value > min_value)
+                    if (regularMarketPrice < min_value && (last_value > min_value || last_value == 0))
                     {
                         Console.WriteLine($"O valor do ativo {asset} é inferior ao valor mínimo. Sugere-se a compra do ativo.");
                         EmailSender sendMail = new EmailSender(asset, false);
+                        sendMail.SendMailSmtp();
                     }
                     else if (regularMarketPrice > max_value && last_value < max_value)
                     {
                         Console.WriteLine($"O valor do ativo {asset} é superior ao valor máximo. Sugere-se a venda do ativo.");
                         EmailSender sendMail = new EmailSender(asset, true);
+                        sendMail.SendMailSmtp();
                     }
 
                     last_value = regularMarketPrice;
@@ -64,13 +66,7 @@ namespace Notificador{
                 }
 
             Thread.Sleep(TimeSpan.FromMinutes(5));
-            }
-            
+            }   
         }
-
-
-
     }
-
-
 }
