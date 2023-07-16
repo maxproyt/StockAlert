@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +28,14 @@ namespace Notificador
             {
                 return await response.Content.ReadAsStringAsync();
             }
+            else if(response.StatusCode == HttpStatusCode.NotFound)
+            {
+                Console.WriteLine("Ação não encontrada, digite novamente:");
+                return null;
+            }
             else
             {
-                throw new Exception($"Falha na solicitação da API: {response.StatusCode}");
+                throw new Exception($"Falha na solicitação da API: {response.StatusCode} , Reporte o erro!");
             }
         }
 

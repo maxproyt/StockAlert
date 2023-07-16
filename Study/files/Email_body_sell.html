@@ -6,29 +6,51 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #222222;
             margin: 0;
             padding: 20px;
         }
 
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         h1 {
-            color: #333333;
+            color: #ffffff;
             font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         p {
-            color: #666666;
+            color: #cccccc;
             font-size: 16px;
             line-height: 1.5;
+            margin-bottom: 10px;
         }
 
+        .highlight {
+            color: #ffffff;
+            font-weight: bold;
+        }
     </style>
 </head>
-<body>
-    <h1>Suas açõees atingiram ponto de Venda!</h1>
-    <br>
-    <p>Estamos entrando em contato pois seu ativo monitorado atingiu o ponto de venda que você definiu.</p>
-    <br>
-    <p>- Equipe Stock Alert!</p>
+<body style="background-color: #222222;">
+    <div class="container">
+        <h1>Stock Alert - Aviso de Venda!</h1>
+        <p>Prezado(a) investidor(a),</p>
+        <p>Gostaríamos de informar que o ativo que você está monitorando atingiu o <span class="highlight">ponto de venda</span> definido por você.</p>
+        <p>Essa é uma ótima oportunidade para realizar a venda de suas ações e garantir seus lucros.</p>
+        <p>Lembre-se de analisar cuidadosamente as condições do mercado antes de tomar qualquer decisão de investimento.</p>
+        <p>Se tiver alguma dúvida ou precisar de mais informações, não hesite em entrar em contato conosco.</p>
+        <br>
+        <p>Atenciosamente,</p>
+        <p>Equipe Stock Alert</p>
+    </div>
 </body>
 </html>
