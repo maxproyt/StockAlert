@@ -1,11 +1,11 @@
-#StockAlert
+# StockAlert
 O StockAlert é um monitor de ativos financeiros da bolsa brasileira que notifica através de e-mails caso a cotação de uma ação ultrapasse valores determinados.
 
-##Instruções de Configuração
+## Instruções de Configuração
 Arquivos de Configuração HTML
 Os arquivos **"Email_body_buy.html"** e **"Email_body_sell.html"** estão presentes na pasta "files" e não devem ser excluídos. Esses arquivos contêm a mensagem de e-mail que será enviada aos clientes e podem ser editados para personalizar o conteúdo.
 
-##Arquivo de Configuração SMTP
+## Arquivo de Configuração SMTP
 O arquivo **"SMTP_Config_file.txt"** é usado para configurar o servidor SMTP e definir os destinatários dos e-mails. Ele deve seguir o formato a seguir:
 
 
