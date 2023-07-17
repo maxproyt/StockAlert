@@ -9,6 +9,10 @@ using System.Diagnostics;
 
 namespace Notificador
 {
+    /// <summary>
+    /// Classe responsável por ler os três arquivos de configuração do programa, 
+    /// requer formatação a correta dos arquivos.
+    /// </summary>
     internal class FileReader
     {
         private string? smtp_client;
@@ -23,6 +27,9 @@ namespace Notificador
         private string  smtpFilePath = "..\\..\\..\\files\\SMTP_Config_file.txt";
         private List<string> recipient_list = new List<string>();
 
+        /// <summary>
+        /// Faz o preenchimento dos atributos do objeto com os dados dos arquivos de configuração.
+        /// </summary>
         public FileReader()
         {
             try

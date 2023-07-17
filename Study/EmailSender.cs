@@ -11,12 +11,22 @@ using System.Net;
 
 namespace Notificador
 {
+    /// <summary>
+    /// Classe responsável pelo envio de emails pelo protocolo SMTP, é dependente da classe FileReader para obter
+    /// as informações para o envio do e-mail
+    /// </summary>
     internal class EmailSender
     {
         
         private FileReader fileData = new();
         private MailMessage mailMessage = new();
 
+        /// <summary>
+        /// Inializa e preenche a mensagem de e-mail com as informações do arquivo de configuração, também adiciona os destinatários
+        /// à lista de envio do e-mail.
+        /// </summary>
+        /// <param name="ativo">O nome do ativo que será utilizado no título do e-mail.</param>
+        /// <param name="ação">Flag booleana que determina compra ou venda, sendo true para venda e false para compra.</param>
         public EmailSender(string asset, bool action) {
             try
             {
@@ -47,6 +57,10 @@ namespace Notificador
                 Console.WriteLine(ex.Message);
             }  
         }
+
+        /// <summary>
+        /// Envia o e-mail através do protocolo SMTP.
+        /// </summary>
         public void SendMailSmtp()
         {
             try

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Notificador
 {
+    /// <summary>
+    /// Classe responsável por fazer uma requisição à API de cotação de açoões da brapi.
+    /// </summary>
     public class ApiConnect
     {
         private readonly HttpClient httpClient;
@@ -19,6 +22,12 @@ namespace Notificador
             httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+
+        /// <summary>
+        /// Faz a requisição GET à API de cotação de mercado, guarda em uma string os dados em formato JSON.
+        /// </summary>
+        /// <param name="symbol">A cotação desejada(symbol)</param>
+        /// <returns>uma string com o conteúdo da requisição à API em formato JSON.</returns>
         public async Task<string> GetQuoteData(string symbol)
         {
             string url = $"api/quote/{symbol}?range=1d&interval=1d&fundamental=false&dividends=false";
